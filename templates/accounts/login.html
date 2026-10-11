@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Entrar · Aurora{% endblock %}
+{% block content %}<section class="container auth-section"><div class="auth-card"><span class="eyebrow">SEU ESPAÇO NA AURORA</span><h1>Bom ter você<br>de volta<span class="pink-dot">.</span></h1><p class="text-muted">Gerencie seu perfil com privacidade e facilidade.</p>{% if throttled %}<div class="alert alert-danger">Muitas tentativas. Aguarde 15 minutos antes de tentar novamente.</div>{% endif %}<form method="post">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button class="btn btn-gradient w-100">Entrar no meu painel →</button></form><p class="auth-bottom">Ainda não tem conta? <a href="{% url 'register' %}">Criar conta</a></p></div></section>{% endblock %}

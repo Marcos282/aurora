@@ -1,0 +1,10 @@
+.venv/
+.env
+__pycache__/
+*.py[cod]
+*.sqlite3
+clone_storage/
+media/
+private/
+staticfiles/
+.coverage

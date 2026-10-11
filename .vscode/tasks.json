@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "SiteForge: painel Django",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-c",
+				"set -a; source .env; set +a; exec .venv/bin/python manage.py runserver 127.0.0.1:8000 --noreload"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "SiteForge: preview isolado",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-c",
+				"set -a; source .env; set +a; exec .venv/bin/python manage.py runserver 127.0.0.1:8001 --settings=config.preview_settings --noreload"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Aurora: portal Django",
+			"type": "shell",
+			"command": "/home/marcos/Documents/clone/.venv/bin/python",
+			"args": [
+				"manage.py",
+				"runserver",
+				"127.0.0.1:8000",
+				"--noreload"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

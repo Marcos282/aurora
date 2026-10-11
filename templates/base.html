@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block description %}Portal nacional de perfis adultos. Privacidade, consentimento e anúncios moderados.{% endblock %}">
+  <title>{% block title %}Aurora · Conexões com identidade{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'portal.css' %}">
+  <script src="{% static 'portal.js' %}" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="{% url 'home' %}"><span class="brand-symbol">a</span> aurora<span class="brand-plus">+</span></a>
+    <nav class="desktop-nav" aria-label="Navegação"><a href="{% url 'home' %}">Explorar perfis</a><a href="{% url 'home' %}#como-funciona">Como funciona</a><a href="{% url 'terms' %}">Segurança</a></nav>
+    <div class="header-actions">
+      <span class="adult-pill">18+</span>
+      {% if user.is_authenticated %}<a class="btn btn-soft" href="{% url 'panel' %}">Meu painel</a>{% else %}<a class="login-link" href="{% url 'login' %}">Entrar</a><a class="btn btn-gradient" href="{% url 'register' %}">Anunciar <span>↗</span></a>{% endif %}
+    </div>
+  </div>
+</header>
+<main>
+{% if messages %}<div class="container pt-3" aria-live="polite">{% for message in messages %}<div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}
+</main>
+<footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href="/">aurora<span class="brand-plus">+</span></a><span>Respeito. Privacidade. Escolhas conscientes.</span><span class="adult-pill">EXCLUSIVO 18+</span></div><div class="footer-bottom"><span>© {% now "Y" %} Aurora · Portal nacional</span><nav><a href="{% url 'terms' %}">Termos de uso</a><a href="{% url 'privacy' %}">Privacidade</a>{% if user.is_staff %}<a href="{% url 'management' %}">Gestão</a>{% endif %}</nav></div><p class="footer-note">Publicação somente após verificação de identidade, maioridade, consentimento e moderação. Não toleramos exploração ou conteúdo envolvendo menores.</p></div></footer>
+<nav class="mobile-nav" aria-label="Navegação móvel"><a href="/"><span>⌕</span>Explorar</a><a href="/#filtros"><span>☷</span>Filtrar</a><a href="{% url 'panel' %}"><span>◉</span>Meu painel</a></nav>
+</body>
+</html>

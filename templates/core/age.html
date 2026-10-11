@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Confirme sua maioridade · Aurora{% endblock %}
+{% block content %}
+<section class="auth-section container"><div class="auth-card text-center"><span class="eyebrow">UM ESPAÇO PARA ADULTOS</span><div class="age-emblem">18+</div><h1>Respeito começa<br>com responsabilidade.</h1><p class="text-muted">Este portal é exclusivo para maiores de 18 anos. Ao continuar, você declara ser adulto e concorda com nossos termos de uso.</p>{% if error %}<div class="alert alert-danger">É necessário confirmar que você tem 18 anos ou mais.</div>{% endif %}<form method="post">{% csrf_token %}<button name="adult" value="yes" class="btn btn-gradient w-100">Tenho 18 anos ou mais →</button></form><a class="exit-link" href="https://www.gov.br/">Não tenho 18 anos · sair</a><p class="small text-muted mt-4">Esta declaração não substitui a verificação documental exigida para anunciantes.</p></div></section>
+{% endblock %}
