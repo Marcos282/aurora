@@ -229,6 +229,26 @@ class TenantTests(TestCase):
         self.assertEqual(client.post(reverse('novainfo:customization'), {'welcome': 'evil'}).status_code, 403)
         self.assertEqual(client.get(reverse('novainfo:logout')).status_code, 405)
 
+    @patch('hotspot.services.RouterClient')
+    def test_csrf_same_origin_and_https_referer_work_but_null_and_foreign_fail(self, router):
+        router.return_value.create_user.return_value = '*6'
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        response = client.get(reverse('novainfo:create'), secure=True)
+        self.assertContains(response, '<meta name="referrer" content="same-origin">', html=True)
+        self.assertNotContains(response, '<meta name="referrer" content="no-referrer">', html=True)
+        token = response.context['form'].initial['request_id']
+        data = self.data(request_id=token, csrfmiddlewaretoken=client.cookies['csrftoken'].value)
+        for origin in ('null', 'https://other.example.test'):
+            response = client.post(reverse('novainfo:create'), data, secure=True, HTTP_ORIGIN=origin)
+            self.assertEqual(response.status_code, 403)
+        router.assert_not_called()
+        response = client.post(reverse('novainfo:create'), data, secure=True, HTTP_ORIGIN='https://testserver')
+        self.assertContains(response, 'Acesso criado')
+        response = client.post(reverse('novainfo:create'), data, secure=True, HTTP_REFERER='https://testserver/painel/criar-acesso/')
+        self.assertContains(response, 'Acesso criado')
+        self.assertEqual(router.return_value.create_user.call_count, 1)
+
     def test_wallpaper_tenant_isolation_and_replacement(self):
         with tempfile.TemporaryDirectory() as media, override_settings(MEDIA_ROOT=media):
             response = self.client.post(reverse('novainfo:customization'), {'welcome': 'Olá Azul', 'wallpaper': picture(), 'tenant_id': str(self.b.pk)})
