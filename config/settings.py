@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "django.contrib.sitemaps", "core", "accounts", "anunciantes", "galerias",
-    "rankings", "assinaturas", "pagamentos", "estatisticas", "moderacao", "dashboard",
+    "rankings", "assinaturas", "pagamentos", "estatisticas", "moderacao", "dashboard", "hotspot",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -25,9 +25,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "core.middleware.AdultAccessMiddleware",
+    "hotspot.middleware.TenantMiddleware",
 ]
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "config.novainfo_urls"
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
     "DIRS": [BASE_DIR / "templates"], "APP_DIRS": True,
@@ -62,9 +62,16 @@ MEDIA_ROOT = BASE_DIR / "media"
 PRIVATE_ROOT = BASE_DIR / "private"
 IDENTITY_ENCRYPTION_KEY = os.environ.get("IDENTITY_ENCRYPTION_KEY", "")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_URL = "login"
+LOGIN_URL = "novainfo:login"
 LOGIN_REDIRECT_URL = "/painel/"
 LOGOUT_REDIRECT_URL = "/"
+
+# Nova Info: no router connection is allowed until the tunnel is configured.
+NOVAINFO_BASE_DOMAIN = os.environ.get("NOVAINFO_BASE_DOMAIN", "").lower().strip(".")
+NOVAINFO_WIREGUARD_INTERFACE = os.environ.get("NOVAINFO_WIREGUARD_INTERFACE", "wg0")
+NOVAINFO_WIREGUARD_NETWORKS = [n.strip() for n in os.environ.get("NOVAINFO_WIREGUARD_NETWORKS", "").split(",") if n.strip()]
+NOVAINFO_CREDENTIAL_KEY = os.environ.get("NOVAINFO_CREDENTIAL_KEY", "")
+NOVAINFO_ROUTER_CA = os.environ.get("NOVAINFO_ROUTER_CA", "")
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = not DEBUG

@@ -1,3 +1,11 @@
+# Nova Info
+
+O ambiente agora inclui o painel Nova Info para estabelecimentos, com planos de acesso Hotspot de 1, 3 ou 6 horas e de 1 a 6 dispositivos simultâneos. Consulte [NOVAINFO.md](NOVAINFO.md) para preparar o banco, vincular contas e configurar MikroTik/WireGuard. Não houve deploy nem alteração automática do `.env`.
+
+---
+
+O conteúdo abaixo documenta o Aurora descontinuado, preservado para referência e administração dos dados existentes.
+
 # Aurora — portal nacional Django
 
 Projeto novo, independente de qualquer site clonado. Interface própria roxa/rosa/coral, mobile-first, com Bootstrap 5 servido localmente. Sem fotos de terceiros, anunciantes fictícios publicados ou pagamentos simulados.
